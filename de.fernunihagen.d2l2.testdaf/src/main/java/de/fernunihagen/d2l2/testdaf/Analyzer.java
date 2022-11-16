@@ -27,6 +27,7 @@ import de.fernunihagen.d2l2.testdaf.io.FeatureCSVFileWriter;
 import de.fernunihagen.d2l2.testdaf.io.FeatureSetBuilder;
 import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.NC;
 
 public class Analyzer extends JCasAnnotator_ImplBase {
 	static StringBuilder sb;
@@ -46,25 +47,29 @@ public class Analyzer extends JCasAnnotator_ImplBase {
 			DocumentMetaData meta = JCasUtil.selectSingle(aJCas, DocumentMetaData.class);
 			id = meta.getDocumentId();
 		}
-		int size = 0;
-		try {
-			for (Entry<AnnotationFS, String> entry : FeaturePathFactory.select(aJCas.getCas(),Token.class.getName())) {
-				// if feature is null it means we can count any entry
-				if(null == null || entry.getValue().equals(null)) {
-					size++;
-				}
-			}
-		} catch (FeaturePathException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+//		int size = 0;
+//		try {
+//			for (Entry<AnnotationFS, String> entry : FeaturePathFactory.select(aJCas.getCas(),Token.class.getName())) {
+//				// if feature is null it means we can count any entry
+//				if(null == null || entry.getValue().equals(null)) {
+//					size++;
+//				}
+//			}
+//		} catch (FeaturePathException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		System.out.println("Size: "+size);
+		Collection<NC> ncs = JCasUtil.select(aJCas, NC.class);
+		for (NC nc : ncs) {
+			System.out.println("Nominal Phrase: "+nc.getChunkValue()+" "+ nc.getCoveredText());
 		}
-		System.out.println("Size: "+size);
 		
-		Collection<Token> tokens = JCasUtil.select(aJCas, Token.class);
-		for (Token t : tokens) {
-			System.out.println(t.getCoveredText()+"- "+t.getLemma().getValue()+"- "+t.getPosValue() +"- "+ t.getPos().getCoarseValue());
-		}
-		System.out.println(tokens.size());
+//		Collection<Token> tokens = JCasUtil.select(aJCas, Token.class);
+//		for (Token t : tokens) {
+//			System.out.println(t.getCoveredText()+"- "+t.getLemma().getValue()+"- "+t.getPosValue() +"- "+ t.getPos().getCoarseValue());
+//		}
+//		System.out.println(tokens.size());
 		Map<String, Set<Feature>> idFeatureMap = new HashMap<>();
 		try {
 			Set<Feature> fes = FeatureSetBuilder.buildFeatureSet(aJCas);

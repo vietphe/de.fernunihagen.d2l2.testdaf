@@ -14,6 +14,7 @@ import org.dkpro.core.io.xmi.XmiWriter;
 import org.lift.api.Configuration.Language;
 
 import de.fernunihagen.d2l2.testdaf.io.TextReader;
+import de.fernunihagen.d2l2.testdaf.structures.SE_Frequencies;
 
 
 
@@ -40,6 +41,8 @@ public class BaseExperiment {
 				TextReader.class, TextReader.PARAM_INPUT_FILE,inputPath, TextReader.PARAM_LANGUAGE,"de" );
 
 		AnalysisEngineDescription prepro = config.getUimaEngineDescription();
+		AnalysisEngineDescription frequencies = createEngineDescription(SE_Frequencies.class, 
+				SE_Frequencies.PARAM_LIST_FILE_PATH, "resources/frequencyLists/OpenSubtitlesDE_WF.csv");
 		AnalysisEngineDescription analyzer = createEngineDescription(Analyzer.class);
 		AnalysisEngineDescription xmiWriter = createEngineDescription(
 				XmiWriter.class, 
@@ -49,6 +52,7 @@ public class BaseExperiment {
 		
 		SimplePipeline.runPipeline(reader, 
 				prepro,
+				frequencies,
 				analyzer,
 				xmiWriter
 		);
