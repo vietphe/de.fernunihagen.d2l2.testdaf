@@ -50,7 +50,12 @@ public class FEL_GenericStructureCounter
 
 	@Override
 	public String getPublicName() {
-		return structureName + "_counter";
+		return this.cleanName("NR_OF_"+structureName + "_PER_NR_OF_TOKEN");
 	}
+	@Override
+	public String getInternalName() {
+		return "StructureCounter_" + getPublicName();
+	}
+	
 }
 

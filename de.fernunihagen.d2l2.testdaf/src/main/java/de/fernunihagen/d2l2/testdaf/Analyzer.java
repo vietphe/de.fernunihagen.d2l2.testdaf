@@ -106,7 +106,7 @@ public class Analyzer extends JCasAnnotator_ImplBase {
 	@Override
 	public void destroy() {
 		try {
-			writeCSVFile("D:\\HiWi\\LiFT\\output\\test.csv");
+			writeCSVFile("D:\\HiWi\\LiFT\\output\\featureLV3.csv");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

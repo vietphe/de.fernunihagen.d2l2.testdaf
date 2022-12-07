@@ -11,20 +11,27 @@ import org.lift.api.Configuration.Language;
 import org.lift.api.Feature;
 import org.lift.api.LiftFeatureExtrationException;
 
-import de.fernunihagen.d2l2.testdaf.features.FE_AvgNrOfCharsPerSentence;
-import de.fernunihagen.d2l2.testdaf.features.FE_AvgNrOfCharsPerToken;
-import de.fernunihagen.d2l2.testdaf.features.FE_AvgNrOfNounPhrasesPerSentence;
-import de.fernunihagen.d2l2.testdaf.features.FE_AvgNrOfTokensPerSentence;
-import de.fernunihagen.d2l2.testdaf.features.FE_CommaRatio;
-import de.fernunihagen.d2l2.testdaf.features.FE_LexicalDensity;
-import de.fernunihagen.d2l2.testdaf.features.FE_LexicalVariation;
-import de.fernunihagen.d2l2.testdaf.features.FE_NrOfChars;
-import de.fernunihagen.d2l2.testdaf.features.FE_SyntacticVariability;
-import de.fernunihagen.d2l2.testdaf.features.FE_SyntaxTreeDepth;
-import de.fernunihagen.d2l2.testdaf.features.FE_TraditionalReadabilityMeasures;
-import de.fernunihagen.d2l2.testdaf.features.FE_TrigramCounter;
-import de.fernunihagen.d2l2.testdaf.features.FE_TypeTokenRatio;
-import de.fernunihagen.d2l2.testdaf.features.ReadabilityConfiguration;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerSentence;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerToken;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfFiniteVerb;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfNounPhrasesPerSentence;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfTokensPerSentence;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_CommaRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalDensity;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalVariation;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_NrDiscourseReferent;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_NrOfChars;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_NrOfConnectives;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_POSRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_SyntacticVariability;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_SyntaxTreeDepth;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_TraditionalReadabilityMeasures;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_TrigramCounter;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_TypeTokenRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.ReadabilityConfiguration;
+import de.fernunihagen.d2l2.testdaf.features.fachsprache.PassiveSentenceExtractor;
+import de.fernunihagen.d2l2.testdaf.features.fachsprache.SubstantivierungExtractor;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.NC;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.PC;
@@ -47,9 +54,13 @@ public class FeatureSetBuilder {
 		featureSet.addAll(getAvgNrOfTokensPerSentence(jcas));
 		featureSet.addAll(getCommaRatio(jcas));
 		featureSet.addAll(getSyntacticVariability(jcas));
-		
-		
-		
+		featureSet.addAll(getSubstantivierungRatio(jcas));
+		featureSet.addAll(getPassivSentenceRatio(jcas));
+		featureSet.addAll(getFrequencyBandRatio(jcas));
+		featureSet.addAll(getPOSRatio(jcas));
+		featureSet.addAll(getConnectiveRatio(jcas));
+		featureSet.addAll(getFiniteVerbRatio(jcas));
+		featureSet.addAll(getDiscourseReferentRatio(jcas));
 		return featureSet;
 	}
 	
@@ -109,6 +120,32 @@ public class FeatureSetBuilder {
 		FE_TypeTokenRatio extractor = new FE_TypeTokenRatio();
 		return extractor.extract(jcas);		
 	}
-	
-	
+	private static Set<Feature> getSubstantivierungRatio(JCas jcas) throws LiftFeatureExtrationException {
+		SubstantivierungExtractor extractor = new SubstantivierungExtractor();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getPassivSentenceRatio(JCas jcas) throws LiftFeatureExtrationException {
+		PassiveSentenceExtractor extractor = new PassiveSentenceExtractor();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getFrequencyBandRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_FrequencyBandRatio extractor = new FE_FrequencyBandRatio();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getPOSRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_POSRatio extractor = new FE_POSRatio();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getConnectiveRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_NrOfConnectives extractor = new FE_NrOfConnectives();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getFiniteVerbRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_AvgNrOfFiniteVerb extractor = new FE_AvgNrOfFiniteVerb();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getDiscourseReferentRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_NrDiscourseReferent extractor = new FE_NrDiscourseReferent();
+		return extractor.extract(jcas);		
+	}	
 }

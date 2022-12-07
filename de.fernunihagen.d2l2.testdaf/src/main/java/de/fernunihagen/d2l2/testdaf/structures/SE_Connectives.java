@@ -37,15 +37,14 @@ public class SE_Connectives
 		try {
 			// if list file is not set, try to load default for language
 			if (listFilePath == "" || listFilePath == null) {
-				Path path = Paths.get("src/main/resources", "connectives", "connectives" + "_" + language + ".txt");
+				Path path = Paths.get("resources/", "connectives/", "connectives" + "_" + language + ".txt");
 				if (Files.notExists(path)) {
 					throw new ResourceInitializationException(new Throwable("Cannot load list of connectives for language: " + language));
 				}
 				listFilePath = path.toString();
 			}
 			
-			listSet = readList(listFilePath);
-			
+			listSet = readList(listFilePath);			
 		} catch (IOException e) {
 			throw new ResourceInitializationException(e);
 		}
@@ -60,7 +59,7 @@ public class SE_Connectives
 			for (Lemma lemma : JCasUtil.select(jcas, Lemma.class)) {
 				if (listSet.contains(lemma.getValue())) {
 					Structure s = new Structure(jcas, lemma.getBegin(), lemma.getEnd());
-					s.setName(getStructureName());
+					s.setName(getPublicStructureName());
 					s.addToIndexes();
 				}
 			}	
@@ -69,7 +68,7 @@ public class SE_Connectives
 			for (Token token : JCasUtil.select(jcas, Token.class)) {
 				if (listSet.contains(token.getCoveredText())) {
 					Structure s = new Structure(jcas, token.getBegin(), token.getEnd());
-					s.setName(getStructureName());
+					s.setName(getPublicStructureName());
 					s.addToIndexes();
 				}
 			}			

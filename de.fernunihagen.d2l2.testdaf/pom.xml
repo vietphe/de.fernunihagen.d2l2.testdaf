@@ -9,6 +9,7 @@
     <uima.version>3.1.0</uima.version>
   </properties>
 	<repositories>
+		
 		<repository>
 			<id>ukp-oss-model-releases</id>
 			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-model-releases-local</url>
@@ -86,6 +87,11 @@
     <artifactId>dkpro-core-matetools-gpl</artifactId>
     <version>2.2.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.dkpro.core</groupId>   
+    <artifactId>dkpro-core-treetagger-asl</artifactId>
+    <version>2.2.0</version>
+    </dependency>
     
       <dependency>
       <groupId>org.dkpro.core</groupId>   
@@ -129,15 +135,9 @@
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.opennlp-model-chunker-en-default</artifactId>
 			<version>20100908.1</version>
-		</dependency>
-<dependency>
-			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
-			<artifactId>de.tudarmstadt.ukp.dkpro.core.matetools-model-lemmatizer-de-tiger</artifactId>
-			<version>20121024.1</version>
-		</dependency>
-   
-    
-	</dependencies>
+		</dependency>		
+		
+  </dependencies>
       <build>
 	        <plugins>
 	             <plugin>

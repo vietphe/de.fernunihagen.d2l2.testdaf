@@ -17,6 +17,7 @@ import org.dkpro.core.languagetool.LanguageToolChecker;
 import org.dkpro.core.matetools.MateLemmatizer;
 import org.dkpro.core.opennlp.OpenNlpChunker;
 import org.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
+import org.dkpro.core.treetagger.TreeTaggerChunker;
 import org.lift.api.Configuration.Language;
 
 public class PreprocessingConfiguration {
@@ -61,6 +62,10 @@ public class PreprocessingConfiguration {
 			lemmatizer = createEngineDescription(
 					MateLemmatizer.class,
 					MateLemmatizer.PARAM_LANGUAGE, Language.German.code);
+//			chunker = createEngineDescription(
+//					TreeTaggerChunker.class,
+//					TreeTaggerChunker.PARAM_LANGUAGE, Language.German.code
+//			);
 
 		} 
 		

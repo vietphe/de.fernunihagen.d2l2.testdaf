@@ -29,7 +29,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  * annotates for each token its frequency according to a provided dictionary
  */
 @TypeCapability(inputs = {"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token"})
-public class SE_Frequencies
+public class SE_FrequenciesGoogleWF
 extends JCasAnnotator_ImplBase
 {
 

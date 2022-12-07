@@ -57,7 +57,7 @@ public class SE_FiniteVerb
 		}
 
 		try {
-			Path path = Paths.get("src/main/resources", "finite_verb_postags",
+			Path path = Paths.get("resources/", "finite_verb_postags/",
 					"finite_verb_postags" + "_" + language + "_" + tagset + ".txt");
 			
 			if (Files.notExists(path)) {
@@ -79,7 +79,7 @@ public class SE_FiniteVerb
 		for (POS pos : JCasUtil.select(jcas, POS.class)) {
 			if (listSet.contains(pos.getPosValue())) {
 				Structure s = new Structure(jcas, pos.getBegin(), pos.getEnd());
-				s.setName(getStructureName());
+				s.setName(getPublicStructureName());
 				s.addToIndexes();
 			}
 		}

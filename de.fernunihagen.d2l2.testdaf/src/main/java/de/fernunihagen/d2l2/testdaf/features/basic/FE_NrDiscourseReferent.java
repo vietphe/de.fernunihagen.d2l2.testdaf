@@ -1,4 +1,4 @@
-package de.fernunihagen.d2l2.testdaf.features;
+package de.fernunihagen.d2l2.testdaf.features.basic;
 
 import java.util.Set;
 
@@ -8,30 +8,37 @@ import org.lift.api.Feature;
 import org.lift.api.FeatureType;
 import org.lift.api.LiftFeatureExtrationException;
 
+import de.fernunihagen.d2l2.testdaf.featureSettings.FEL_GenericStructureCounter;
 import de.fernunihagen.d2l2.testdaf.featureSettings.FeatureExtractor_ImplBase;
 
 /**
  * Extracts the total number of characters.
  */
 @TypeCapability(inputs = { "de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token"})
-public class FE_NrOfChars 
+public class FE_NrDiscourseReferent 
 	extends FeatureExtractor_ImplBase
 {
 
-	public static String NR_OF_CHARS = "NrOfChars";
-
+private FEL_GenericStructureCounter counter;
+	
+	public FE_NrDiscourseReferent() {
+		counter = new FEL_GenericStructureCounter("DiscourseReferent");
+	}
 	@Override
 	public Set<Feature> extract(JCas jcas) throws LiftFeatureExtrationException {
 		
-		String text = jcas.getDocumentText();
-		double nrOfChars = text.length();
+		return counter.extract(jcas);
 		
-		return new Feature(NR_OF_CHARS, nrOfChars, FeatureType.NUMERIC).asSet();
 	}
 
 	@Override
 	public String getPublicName() {
-		return "NrOfChars";
+		return counter.getPublicName();
+	}
+	
+	@Override
+	public String getInternalName() {
+		return counter.getInternalName();
 	}
 	
 }

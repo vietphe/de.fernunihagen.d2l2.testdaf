@@ -1,4 +1,4 @@
-package de.fernunihagen.d2l2.testdaf.features;
+package de.fernunihagen.d2l2.testdaf.features.basic;
 
 import java.util.ArrayList;
 import java.util.HashSet;

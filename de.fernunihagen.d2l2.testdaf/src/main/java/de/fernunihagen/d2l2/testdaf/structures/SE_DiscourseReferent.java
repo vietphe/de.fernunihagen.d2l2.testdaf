@@ -26,7 +26,7 @@ public class SE_DiscourseReferent
 	extends ListBasedAnnotator_ImplBase
 {
 
-	public static final String PARAM_LANGUAGE = "lang";
+	public static final String PARAM_LANGUAGE = "language";
 	@ConfigurationParameter(name = PARAM_LANGUAGE, mandatory = true)
 	private String language;
 	
@@ -57,7 +57,7 @@ public class SE_DiscourseReferent
 		}
 
 		try {
-			Path path = Paths.get("src/main/resources", "discourse_referent_postags",
+			Path path = Paths.get("resources/", "discourse_referent_postags/",
 					"discourse_referent_postags" + "_" + language + "_" + tagset + ".txt");
 			
 			if (Files.notExists(path)) {
@@ -79,7 +79,7 @@ public class SE_DiscourseReferent
 		for (POS pos : JCasUtil.select(jcas, POS.class)) {
 			if (listSet.contains(pos.getPosValue())) {
 				Structure s = new Structure(jcas, pos.getBegin(), pos.getEnd());
-				s.setName(getStructureName());
+				s.setName(getPublicStructureName());
 				s.addToIndexes();
 			}
 		}

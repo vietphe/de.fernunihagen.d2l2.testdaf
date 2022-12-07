@@ -1,4 +1,4 @@
-package de.fernunihagen.d2l2.testdaf.features;
+package de.fernunihagen.d2l2.testdaf.features.basic;
 
 import java.util.Set;
 
@@ -9,27 +9,26 @@ import org.lift.api.LiftFeatureExtrationException;
 import de.fernunihagen.d2l2.testdaf.featureSettings.FEL_AnnotationRatio;
 import de.fernunihagen.d2l2.testdaf.featureSettings.FeatureExtractor_ImplBase;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.NC;
 
-/**
- * Calculates the average number of Token per Sentence.
- * Uses {@link FEL_AvgAnnotationRatio}.
- */
-public class FE_AvgNrOfTokensPerSentence 
+public class FE_AvgNrOfNounPhrasesPerSentence 
 	extends FeatureExtractor_ImplBase
 {
 
 	private FEL_AnnotationRatio ratioExtractor;
 	
-	public FE_AvgNrOfTokensPerSentence() {
+	public FE_AvgNrOfNounPhrasesPerSentence() 
+	{
 		ratioExtractor = new FEL_AnnotationRatio(
-				Token.class.getName(),
-				Sentence.class.getName()
+			NC.class.getName(),
+			Sentence.class.getName()
 		);
 	}
-
+	
 	@Override
-	public Set<Feature> extract(JCas jcas) throws LiftFeatureExtrationException {		
+	public Set<Feature> extract(JCas jcas) 
+			throws LiftFeatureExtrationException
+	{		
 		return ratioExtractor.extract(jcas);
 	}
 
