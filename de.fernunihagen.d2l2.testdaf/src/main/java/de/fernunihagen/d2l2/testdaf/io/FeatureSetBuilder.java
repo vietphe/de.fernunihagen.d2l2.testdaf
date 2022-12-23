@@ -54,13 +54,14 @@ public class FeatureSetBuilder {
 		featureSet.addAll(getAvgNrOfTokensPerSentence(jcas));
 		featureSet.addAll(getCommaRatio(jcas));
 		featureSet.addAll(getSyntacticVariability(jcas));
+		featureSet.addAll(getConnectiveRatio(jcas));
+		featureSet.addAll(getFiniteVerbRatio(jcas));
+		featureSet.addAll(getDiscourseReferentRatio(jcas));
 		featureSet.addAll(getSubstantivierungRatio(jcas));
 		featureSet.addAll(getPassivSentenceRatio(jcas));
 		featureSet.addAll(getFrequencyBandRatio(jcas));
 		featureSet.addAll(getPOSRatio(jcas));
-		featureSet.addAll(getConnectiveRatio(jcas));
-		featureSet.addAll(getFiniteVerbRatio(jcas));
-		featureSet.addAll(getDiscourseReferentRatio(jcas));
+		
 		return featureSet;
 	}
 	

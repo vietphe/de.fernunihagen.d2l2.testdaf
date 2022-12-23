@@ -23,7 +23,7 @@ public class FE_AvgNrOfCharsPerToken
 	extends FeatureExtractor_ImplBase
 {
 
-	public static final String AVG_NR_OF_CHARS_PER_TOKEN = "avgNumCharsToken";
+	public static final String AVG_NR_OF_CHARS_PER_TOKEN = "avgNumCharsPerToken";
     public static final String STANDARD_DEVIATION_OF_CHARS_PER_TOKEN = "standardDevCharsPerToken";
 
 	@Override

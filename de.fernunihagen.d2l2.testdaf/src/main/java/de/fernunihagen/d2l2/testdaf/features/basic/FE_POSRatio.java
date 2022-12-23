@@ -79,10 +79,11 @@ public class FE_POSRatio extends FeatureExtractor_ImplBase{
 		int TRUNC = 0;
 		int XY = 0;
 		int FM = 0;
+		int PROAV = 0;
 		
 		int PUNCT=0;
 		for (Token t : tokens) {
-			System.out.println(t.getCoveredText()+" "+t.getPosValue()+" "+t.getPos().getCoarseValue());
+//			System.out.println(t.getCoveredText()+" "+t.getPosValue()+" "+t.getPos().getCoarseValue());
 			if(t.getPosValue().equals("NN")) {
 				NN++;
 			}
@@ -236,6 +237,9 @@ public class FE_POSRatio extends FeatureExtractor_ImplBase{
 			if(t.getPosValue().equals("FM")) {
 				FM++;
 			}
+			if(t.getPosValue().equals("PROAV")) {
+				PROAV++;
+			}
 			if(t.getPos().getCoarseValue()!=null && t.getPos().getCoarseValue().equals("PUNCT")) {
 				PUNCT++;
 			}
@@ -247,7 +251,7 @@ public class FE_POSRatio extends FeatureExtractor_ImplBase{
 		int sum = NN +NE +ADJA+ ADJD+ CARD +VMFIN+ VAFIN +VVFIN +VAIMP+ VVIMP+ VVINF +VAINF+VMINF +VVIZU +VMPP+ VAPP+ ART +PPER
 				+PRF+PPOSAT+PPOSS+PDAT+PDS+PIAT+PIDAT+PIS+PRELAT+PRELS+PWAT+PWS+PWAV+PAV+ADV+KOUI+KOUS+KON+KOKOM+APPR+APPRART+APPO+APZR
 				+PTKZU+PTKNEG+PTKVZ+PTKA+PTKANT+ITJ+TRUNC+XY+FM;
-		System.out.println("Noun: "+sum+" size: "+tokens.size()+"Punct: " +PUNCT );
+//		System.out.println("Noun: "+sum+" size: "+tokens.size()+"Punct: " +PUNCT );
 		
 		
 		
@@ -302,6 +306,7 @@ public class FE_POSRatio extends FeatureExtractor_ImplBase{
 		POSFeatures.add( new Feature("POS_TRUNC", (double) TRUNC/tokens.size(), FeatureType.NUMERIC));
 		POSFeatures.add( new Feature("POS_XY", (double) XY/tokens.size(), FeatureType.NUMERIC));
 		POSFeatures.add( new Feature("POS_FM", (double) FM/tokens.size(), FeatureType.NUMERIC));
+		POSFeatures.add( new Feature("POS_PROAV", (double) PROAV/tokens.size(), FeatureType.NUMERIC));
 		
 		return POSFeatures;
 	}

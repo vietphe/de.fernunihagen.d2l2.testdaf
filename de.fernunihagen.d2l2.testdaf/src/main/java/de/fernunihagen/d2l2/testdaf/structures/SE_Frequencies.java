@@ -85,7 +85,16 @@ extends JCasAnnotator_ImplBase
 	public void process(JCas jcas) 
 			throws AnalysisEngineProcessException
 	{
-
+//		double min = Double.MAX_VALUE;
+//		for (Map.Entry<String, Double> entry : dict.entrySet()) {
+//			String key = entry.getKey();
+//			Double val = entry.getValue();
+//			if (val<min) {
+//				min = val;
+//			}
+//		}
+//		System.out.println("Minimum is: "+min);
+		
 		if (useLemmas) {
 			for (Lemma lemma : JCasUtil.select(jcas, Lemma.class)) {
 				if (dict.containsKey(lemma.getValue().toLowerCase())) {
@@ -110,6 +119,33 @@ extends JCasAnnotator_ImplBase
 	private String computeFrequencyBand(double frequencyValue) {
 		double log = Math.log10(frequencyValue);
 		String band = "Band "+((int)(Math.floor(log))+ 1);
+		return band;
+	}
+	
+	private String computeFrequencyBandForGoogleBooksCorpus(double frequencyValue) {
+		double log = Math.log10(1000*frequencyValue);
+		String band = "Band "+((int)(Math.floor(log))+ 1);
+		if (band.equals("Band 0")||band.equals("Band 1")||band.equals("Band 2")) {
+			band = "Band 1";
+		}
+		if (band.equals("Band 3")) {
+			band = "Band 2";
+		}
+		if (band.equals("Band 4")) {
+			band = "Band 3";
+		}
+		if (band.equals("Band 5")) {
+			band = "Band 4";
+		}
+		if (band.equals("Band 6")) {
+			band = "Band 5";
+		}
+		if (band.equals("Band 7")) {
+			band = "Band 6";
+		}
+		if (band.equals("Band 8")) {
+			band = "Band 7";
+		}
 		return band;
 	}
 	

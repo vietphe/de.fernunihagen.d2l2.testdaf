@@ -118,7 +118,7 @@ public class TextReader extends JCasCollectionReader_ImplBase {
 			DocumentMetaData dmd = DocumentMetaData.create(jcas);
 			//TODO: The name of the getters und setters must be meaningful
 			dmd.setDocumentId(item.getId());
-			dmd.setDocumentTitle(item.getText());			
+			dmd.setDocumentTitle(item.getText());	
 		}
 
 		catch (Exception e) {

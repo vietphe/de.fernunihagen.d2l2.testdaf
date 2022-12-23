@@ -39,9 +39,9 @@ public class SubstantivierungExtractor extends FeatureExtractor_ImplBase {
 			throws ResourceInitializationException
 	{
 		List<String> list = new ArrayList<String>();
-		
+		//TODO: UTF-8 for German Umlaut	"tät"
 		try {
-			for (String suffix : FileUtils.readLines(new File(suffixesFile))) {
+			for (String suffix : FileUtils.readLines(new File(suffixesFile),"UTF-8")) {
 				list.add(suffix);
 			}
 		} catch (IOException e) {
@@ -63,6 +63,7 @@ public class SubstantivierungExtractor extends FeatureExtractor_ImplBase {
 		int countNouns = JCasUtil.select(jcas, POS_NOUN.class).size();
 		FrequencyDistribution<String> suffixFD = new FrequencyDistribution<String>();
 		for (String s : suffixes) {
+//			System.out.println(s);
 			for (Token t : JCasUtil.select(jcas, Token.class)) {
 				POS pos = t.getPos();
 				if (pos instanceof POS_NOUN) {

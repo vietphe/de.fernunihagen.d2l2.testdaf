@@ -45,12 +45,12 @@ public class FEL_GenericStructureCounter
 		//Normalization on total count of words
 		double ratio = (double) nrOfFeature / overallCount;
 		
-		return new Feature("FN_"+ getInternalName(), ratio, FeatureType.NUMERIC).asSet();
+		return new Feature(getPublicName(), ratio, FeatureType.NUMERIC).asSet();
 	}
 
 	@Override
 	public String getPublicName() {
-		return this.cleanName("NR_OF_"+structureName + "_PER_NR_OF_TOKEN");
+		return this.cleanName("NrOf"+structureName + "PerNrOfToken");
 	}
 	@Override
 	public String getInternalName() {
