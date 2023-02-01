@@ -29,7 +29,10 @@ import org.lift.type.FeatureAnnotationNumeric;
 import de.fernunihagen.d2l2.testdaf.io.CasFeatureFileWriter;
 import de.fernunihagen.d2l2.testdaf.io.FeatureCSVFileWriter;
 import de.fernunihagen.d2l2.testdaf.io.FeatureSetBuilder;
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.Morpheme;
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.MorphologicalFeatures;
 import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Compound;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.NC;
 
@@ -47,6 +50,17 @@ public class Analyzer extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+//		Collection<MorphologicalFeatures> morphemes = JCasUtil.select(aJCas, MorphologicalFeatures.class);
+//		Collection<Morpheme> mo = JCasUtil.select(aJCas, Morpheme.class);
+//		System.out.println("Morpheme: "+mo);
+//		for (MorphologicalFeatures morpheme : morphemes) {
+//			System.out.println("Morpheme: "+morpheme.getValue());
+//		}
+//		Collection<Compound> compounds = JCasUtil.select(aJCas, Compound.class);
+//		System.out.println(compounds);
+//		for (Compound compound : compounds) {
+//			System.out.println(compound);
+//		} 
 		
 		String id = "no Id";
 		if (JCasUtil.exists(aJCas, DocumentMetaData.class)){
@@ -140,12 +154,12 @@ public class Analyzer extends JCasAnnotator_ImplBase {
 	@Override
 	public void destroy() {
 		
-		try {
-			exportCSVFile("D:\\HiWi\\LiFT\\output\\LV2_POS.csv", featureList);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			exportCSVFile("D:\\HiWi\\LiFT\\output\\LV2_POS.csv", featureList);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 		
 	

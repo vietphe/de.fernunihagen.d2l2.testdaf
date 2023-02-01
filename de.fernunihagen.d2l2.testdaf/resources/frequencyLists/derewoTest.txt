@@ -1,0 +1,5 @@
+dies(e,er,es) 5
+ein(e) 5 PRON
+kein(e,er,es) 6
+letzte(r,s) 7
+welch(e,er,es) 8 DKM

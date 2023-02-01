@@ -13,6 +13,7 @@ import org.lift.api.LiftFeatureExtrationException;
 
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerToken;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCompoundPerToken;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfFiniteVerb;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfNounPhrasesPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfTokensPerSentence;
@@ -61,6 +62,7 @@ public class FeatureSetBuilder {
 		featureSet.addAll(getPassivSentenceRatio(jcas));
 		featureSet.addAll(getFrequencyBandRatio(jcas));
 		featureSet.addAll(getPOSRatio(jcas));
+		featureSet.addAll(getCompoundRatio(jcas));
 		
 		return featureSet;
 	}
@@ -147,6 +149,10 @@ public class FeatureSetBuilder {
 	}
 	private static Set<Feature> getDiscourseReferentRatio(JCas jcas) throws LiftFeatureExtrationException {
 		FE_NrDiscourseReferent extractor = new FE_NrDiscourseReferent();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getCompoundRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_AvgNrOfCompoundPerToken extractor = new FE_AvgNrOfCompoundPerToken();
 		return extractor.extract(jcas);		
 	}	
 }

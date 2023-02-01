@@ -14,11 +14,13 @@ import org.dkpro.core.io.xmi.XmiWriter;
 import org.lift.api.Configuration.Language;
 
 import de.fernunihagen.d2l2.testdaf.io.TextReader;
+import de.fernunihagen.d2l2.testdaf.structures.SE_Compound;
 import de.fernunihagen.d2l2.testdaf.structures.SE_Connectives;
 import de.fernunihagen.d2l2.testdaf.structures.SE_DLTIntegrationCost;
 import de.fernunihagen.d2l2.testdaf.structures.SE_DiscourseReferent;
 import de.fernunihagen.d2l2.testdaf.structures.SE_FiniteVerb;
 import de.fernunihagen.d2l2.testdaf.structures.SE_Frequencies;
+import de.fernunihagen.d2l2.testdaf.structures.SE_FrequenciesDeReWo;
 import de.fernunihagen.d2l2.testdaf.structures.SE_FrequenciesGoogleWF;
 
 
@@ -28,7 +30,7 @@ public class BaseExperiment {
 	public static void main(String[] args) 
 			throws Exception
 	{
-		String inputPath = "D:\\HiWi\\LiFT\\testdaf\\LV3";
+		String inputPath = "D:\\HiWi\\LiFT\\testdafTest";
 //		runTextExample("src/test/resources/txt/essay_en.txt", Language.English);
 		runTextExample(inputPath, Language.German);
 //		runTextExample("src/test/resources/txt/news_de.txt", Language.German);
@@ -49,13 +51,15 @@ public class BaseExperiment {
 		AnalysisEngineDescription frequencies = createEngineDescription(SE_Frequencies.class, 
 				SE_Frequencies.PARAM_LIST_FILE_PATH, "resources/frequencyLists/OpenSubtitlesDE_WF.csv");
 		AnalysisEngineDescription frequenciesGoogleBooksWF = createEngineDescription(SE_FrequenciesGoogleWF.class, 
-				SE_FrequenciesGoogleWF.PARAM_LIST_FILE_PATH, "resources/frequencyLists/Google00de_WF.csv");
+				SE_FrequenciesGoogleWF.PARAM_LIST_FILE_PATH, "resources/frequencyLists/derewoTest.txt");
+		AnalysisEngineDescription frequenciesDeReWo = createEngineDescription(SE_FrequenciesDeReWo.class, 
+				SE_FrequenciesDeReWo.PARAM_LIST_FILE_PATH, "resources/frequencyLists/derewo1.txt",SE_FrequenciesGoogleWF.PARAM_USE_LEMMAS, true );
 		AnalysisEngineDescription connectivies = createEngineDescription(SE_Connectives.class, SE_Connectives.PARAM_LANGUAGE, "de",
 				SE_Connectives.PARAM_USE_LEMMAS, false);
 		AnalysisEngineDescription discourseReferents = createEngineDescription(SE_DiscourseReferent.class, SE_DiscourseReferent.PARAM_LANGUAGE, "de");
 		AnalysisEngineDescription dLTIntegrationCosts = createEngineDescription(SE_DLTIntegrationCost.class, SE_DLTIntegrationCost.PARAM_LANGUAGE, "de");
 		AnalysisEngineDescription finiteVerbs = createEngineDescription(SE_FiniteVerb.class, SE_FiniteVerb.PARAM_LANGUAGE, "de");
-		
+		AnalysisEngineDescription compounds = createEngineDescription(SE_Compound.class);
 		AnalysisEngineDescription analyzer = createEngineDescription(Analyzer.class);
 		AnalysisEngineDescription xmiWriter = createEngineDescription(
 				XmiWriter.class, 
@@ -65,11 +69,12 @@ public class BaseExperiment {
 		
 		SimplePipeline.runPipeline(reader, 
 				prepro,
-				frequencies,
-//				frequenciesGoogleBooksWF,
+//				frequencies,
+				frequenciesDeReWo,
 				connectivies,
 				discourseReferents,
 				finiteVerbs,
+				compounds,
 				analyzer,
 				xmiWriter
 		);

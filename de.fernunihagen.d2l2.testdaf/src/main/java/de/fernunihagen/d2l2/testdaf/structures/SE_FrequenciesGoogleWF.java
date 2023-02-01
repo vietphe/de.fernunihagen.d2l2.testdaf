@@ -98,18 +98,39 @@ extends JCasAnnotator_ImplBase
 		}
 		else {
 			for (Token token : JCasUtil.select(jcas, Token.class)) {
-				if (dict.containsKey(token.getCoveredText().toLowerCase())) {
+				if (dict.containsKey(token.getCoveredText())) {
 					Frequency f = new Frequency(jcas, token.getBegin(), token.getEnd());
-					f.setValue(dict.get(token.getCoveredText().toLowerCase()));
-					f.setFrequencyBand(computeFrequencyBand(dict.get(token.getCoveredText().toLowerCase())));
+					f.setValue(dict.get(token.getCoveredText()));
+					f.setFrequencyBand(computeFrequencyBand(dict.get(token.getCoveredText())));
 					f.addToIndexes();
 				}
 			}			
 		}
 	}
 	private String computeFrequencyBand(double frequencyValue) {
-		double log = Math.log10(frequencyValue);
+		double log = Math.log10(1000*frequencyValue);
 		String band = "Band "+((int)(Math.floor(log))+ 1);
+		if (band.equals("Band 0")||band.equals("Band 1")||band.equals("Band 2")) {
+			band = "Band 1";
+		}
+		if (band.equals("Band 3")) {
+			band = "Band 2";
+		}
+		if (band.equals("Band 4")) {
+			band = "Band 3";
+		}
+		if (band.equals("Band 5")) {
+			band = "Band 4";
+		}
+		if (band.equals("Band 6")) {
+			band = "Band 5";
+		}
+		if (band.equals("Band 7")) {
+			band = "Band 6";
+		}
+		if (band.equals("Band 8")) {
+			band = "Band 7";
+		}
 		return band;
 	}
 	
