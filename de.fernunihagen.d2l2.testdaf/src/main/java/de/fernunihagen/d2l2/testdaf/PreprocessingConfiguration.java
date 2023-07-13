@@ -75,8 +75,9 @@ public class PreprocessingConfiguration {
 //		AnalysisEngineDescription constituentParser = getParser_Berkeley(language.code);
 		AnalysisEngineDescription dependencyParser  = getDepParser_CoreNLP(language.code);
 		//actually only for German
-		AnalysisEngineDescription morphologicalAnalyzer  = getMorphologicalAnalyzer(language.code);
+//		AnalysisEngineDescription morphologicalAnalyzer  = getMorphologicalAnalyzer(language.code); //nur de-version
 		AnalysisEngineDescription compoundAnnotator  = getCompoundAnnotator(language.code);
+		AnalysisEngineDescription languageToolChecker  = getLanguageToolChecker(language.code);
 		
 		try {
 			createIndex();
@@ -120,8 +121,9 @@ public class PreprocessingConfiguration {
 		components.add(ner);
 		components.add(constituentParser);
 		components.add(dependencyParser);
-		components.add(morphologicalAnalyzer);
+//		components.add(morphologicalAnalyzer);
 		components.add(compoundAnnotator);
+		components.add(languageToolChecker);
 	}
 	
 	public AnalysisEngineDescription getUimaEngineDescription() 
@@ -210,7 +212,7 @@ public class PreprocessingConfiguration {
 				CoreNlpParser.PARAM_WRITE_PENN_TREE, true,
 				CoreNlpParser.PARAM_WRITE_POS, false,
 				CoreNlpParser.PARAM_PRINT_TAGSET, false,
-				CoreNlpParser.PARAM_VARIANT, "pcfg"
+				CoreNlpParser.PARAM_VARIANT,"pcfg"
 		);
 	}
 //	// for German
@@ -255,5 +257,13 @@ public class PreprocessingConfiguration {
 				MateMorphTagger.PARAM_LANGUAGE, languageCode,
 				MateMorphTagger.PARAM_VARIANT, "tiger"
 		);
+	}
+	private AnalysisEngineDescription getLanguageToolChecker(String languageCode) 
+			throws ResourceInitializationException
+	{
+		return createEngineDescription(
+	             LanguageToolChecker.class,
+	             LanguageToolChecker.PARAM_LANGUAGE,"de"              
+	            );
 	}
 }

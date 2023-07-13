@@ -87,13 +87,14 @@
     <artifactId>dkpro-core-matetools-gpl</artifactId>
     <version>2.2.0</version>
     </dependency>
-    <dependency>
+    
+<!--    <dependency>
       <groupId>org.dkpro.core</groupId>   
     <artifactId>dkpro-core-treetagger-asl</artifactId>
     <version>2.2.0</version>
-    </dependency>
+    </dependency> --> 
     
-      <dependency>
+     <dependency>
       <groupId>org.dkpro.core</groupId>   
     <artifactId>dkpro-core-io-text-asl</artifactId>
     <version>2.2.0</version>
@@ -129,15 +130,20 @@
     <artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-en-pcfg</artifactId>
     <version>20150129.1</version>
   </dependency>
-    <dependency>
+  	<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.opennlp-model-tagger-de-maxent</artifactId>
 			<version>20120616.1</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-de-pcfg</artifactId>
 			<version>20150129.1</version>
+		</dependency> 
+		<dependency>
+  			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+  			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-en-rnn</artifactId>
+  			<version>20140104.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -154,12 +160,12 @@
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.opennlp-model-chunker-en-default</artifactId>
 			<version>20100908.1</version>
 		</dependency>
- 		<dependency>
+ <!-- 		<dependency>
     		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
     		<artifactId>de.tudarmstadt.ukp.dkpro.core.matetools-model-morphtagger-de-tiger</artifactId>
     		<version>20121024.1</version>
-		</dependency>
-<!-- -->		
+		</dependency> -->	
+	
 		<dependency>
   			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
   			<artifactId>de.tudarmstadt.ukp.dkpro.core.decompounding-model-splitter-de-kompVVic</artifactId>
@@ -174,6 +180,11 @@
   			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
   			<artifactId>de.tudarmstadt.ukp.dkpro.core.decompounding-model-splitter-de-grfExt</artifactId>
   			<version>20130521.0</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.dkpro.core</groupId>
+    		<artifactId>dkpro-core-languagetool-asl</artifactId>
+    		<version>2.3.0</version>
 		</dependency>
 
 		

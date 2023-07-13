@@ -69,12 +69,12 @@ public class BaseExperiment {
 		
 		SimplePipeline.runPipeline(reader, 
 				prepro,
-//				frequencies,
-				frequenciesDeReWo,
-				connectivies,
-				discourseReferents,
-				finiteVerbs,
-				compounds,
+////				frequencies,
+//				frequenciesDeReWo,
+//				connectivies,
+//				discourseReferents,
+//				finiteVerbs,
+//				compounds,
 				analyzer,
 				xmiWriter
 		);

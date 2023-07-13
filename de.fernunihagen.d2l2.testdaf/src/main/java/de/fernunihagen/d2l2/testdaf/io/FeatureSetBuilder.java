@@ -18,6 +18,7 @@ import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfFiniteVerb;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfNounPhrasesPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfTokensPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_CommaRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandDeReWo;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandRatio;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalDensity;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalVariation;
@@ -61,6 +62,7 @@ public class FeatureSetBuilder {
 		featureSet.addAll(getSubstantivierungRatio(jcas));
 		featureSet.addAll(getPassivSentenceRatio(jcas));
 		featureSet.addAll(getFrequencyBandRatio(jcas));
+		featureSet.addAll(getFrequencyBandDeReWo(jcas));
 		featureSet.addAll(getPOSRatio(jcas));
 		featureSet.addAll(getCompoundRatio(jcas));
 		
@@ -133,6 +135,10 @@ public class FeatureSetBuilder {
 	}
 	private static Set<Feature> getFrequencyBandRatio(JCas jcas) throws LiftFeatureExtrationException {
 		FE_FrequencyBandRatio extractor = new FE_FrequencyBandRatio();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getFrequencyBandDeReWo(JCas jcas) throws LiftFeatureExtrationException {
+		FE_FrequencyBandDeReWo extractor = new FE_FrequencyBandDeReWo();
 		return extractor.extract(jcas);		
 	}
 	private static Set<Feature> getPOSRatio(JCas jcas) throws LiftFeatureExtrationException {

@@ -6,35 +6,23 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
-import org.apache.uima.fit.pipeline.JCasIterator;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.dkpro.core.api.featurepath.FeaturePathException;
-import org.dkpro.core.api.featurepath.FeaturePathFactory;
 import org.lift.api.Feature;
 import org.lift.api.FeatureType;
 import org.lift.api.LiftFeatureExtrationException;
 import org.lift.type.FeatureAnnotationNumeric;
-
-import de.fernunihagen.d2l2.testdaf.io.CasFeatureFileWriter;
-import de.fernunihagen.d2l2.testdaf.io.FeatureCSVFileWriter;
 import de.fernunihagen.d2l2.testdaf.io.FeatureSetBuilder;
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.Morpheme;
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.MorphologicalFeatures;
+import de.tudarmstadt.ukp.dkpro.core.api.anomaly.type.GrammarAnomaly;
 import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Compound;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.NC;
 
 public class Analyzer extends JCasAnnotator_ImplBase {
 	static StringBuilder sb;
@@ -49,113 +37,77 @@ public class Analyzer extends JCasAnnotator_ImplBase {
 	}
 
 	@Override
-	public void process(JCas aJCas) throws AnalysisEngineProcessException {
-//		Collection<MorphologicalFeatures> morphemes = JCasUtil.select(aJCas, MorphologicalFeatures.class);
-//		Collection<Morpheme> mo = JCasUtil.select(aJCas, Morpheme.class);
-//		System.out.println("Morpheme: "+mo);
-//		for (MorphologicalFeatures morpheme : morphemes) {
-//			System.out.println("Morpheme: "+morpheme.getValue());
-//		}
-//		Collection<Compound> compounds = JCasUtil.select(aJCas, Compound.class);
-//		System.out.println(compounds);
-//		for (Compound compound : compounds) {
-//			System.out.println(compound);
-//		} 
-		
+	public void process(JCas aJCas) throws AnalysisEngineProcessException {	
 		String id = "no Id";
 		if (JCasUtil.exists(aJCas, DocumentMetaData.class)){
 			DocumentMetaData meta = JCasUtil.selectSingle(aJCas, DocumentMetaData.class);
 			id = meta.getDocumentId();
 		}
-//		int size = 0;
-//		try {
-//			for (Entry<AnnotationFS, String> entry : FeaturePathFactory.select(aJCas.getCas(),Token.class.getName())) {
-//				// if feature is null it means we can count any entry
-//				if(null == null || entry.getValue().equals(null)) {
-//					size++;
-//				}
-//			}
-//		} catch (FeaturePathException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		System.out.println("Size: "+size);
-		Collection<NC> ncs = JCasUtil.select(aJCas, NC.class);
-		for (NC nc : ncs) {
-			System.out.println("Nominal Phrase: "+nc.getChunkValue()+" "+ nc.getCoveredText());
-		}
-		
-//		Collection<Token> tokens = JCasUtil.select(aJCas, Token.class);
-//		for (Token t : tokens) {
-//			System.out.println(t.getCoveredText()+"- "+t.getLemma().getValue()+"- "+t.getPosValue() +"- "+ t.getPos().getCoarseValue());
-//		}
-//		System.out.println(tokens.size());
-		
-		Map<String, Set<Feature>> idFeatureMap = new HashMap<>();
-		try {
-			Set<Feature> fes = FeatureSetBuilder.buildFeatureSet(aJCas);
-			//add Annotation type
-			for (Feature f : fes) {
-				String name = f.getName();
-				FeatureType featureType = f.getType();
-				Object value = f.getValue();
-				FeatureAnnotationNumeric fa = new FeatureAnnotationNumeric(aJCas, 0, 0);
-				fa.setName(name);
-				fa.setValue((double) value);
-				fa.addToIndexes();
-			}
-//			
-		} catch (LiftFeatureExtrationException e) {
+		System.out.println(id);
+		Map<String, String> grammarAnomaly = new HashMap<>();
+		Collection<GrammarAnomaly> gas = JCasUtil.select(aJCas, GrammarAnomaly.class);
+		for (GrammarAnomaly g : gas) {
+			System.out.println(g.getBegin()+": "+g.getCoveredText());
+			grammarAnomaly.put(g.getBegin()+"-"+g.getEnd(), g.getDescription());
 			
-			e.printStackTrace();
 		}
-				
-//		//writeCSVFile for every essay
+		Collection<Token> tokens = JCasUtil.select(aJCas, Token.class);
+		
+		int grammaticalError = 0;
+		int spellingMistake = 0;
+		for (Map.Entry<String, String> entry : grammarAnomaly.entrySet()) {
+			String key = entry.getKey();
+			String val = entry.getValue();
+			System.out.println(key+": "+val);
+			if (val.contains("<suggestion>")||val.contains("requires the verb's base form")) {
+				grammaticalError++;
+			}
+			if (val.contains("Possible spelling mistake found")) {
+				spellingMistake++;
+			}
+		}
+		
+		System.out.println("Grammatischer Fehler: "+grammaticalError);
+		System.out.println("Spelling Fehler: "+spellingMistake);
+		
+
 //		try {
-//			StringBuilder sb1 = new StringBuilder();
-//			String path = "D:\\HiWi\\LiFT\\outcome\\" + id +".csv";
 //			Set<Feature> fes = FeatureSetBuilder.buildFeatureSet(aJCas);
-//			String first = writeFirstColumnNames(fes);
-//			sb1.append(first);
-//			sb1.append("\n");
-//			sb1.append(id);
-//			for (Feature feature : fes) {
-//				sb1.append(",");
-//				sb1.append(feature.getValue().toString());
+//			//add Annotation type
+//			for (Feature f : fes) {
+//				String name = f.getName();
+//				FeatureType featureType = f.getType();
+//				Object value = f.getValue();
+//				FeatureAnnotationNumeric fa = new FeatureAnnotationNumeric(aJCas, 0, 0);
+//				fa.setName(name);
+//				fa.setValue((double) value);
+//				fa.addToIndexes();
 //			}
-//			sb1.append("\n");
+//		
+//		} catch (LiftFeatureExtrationException e) {
 //			
-//			PrintWriter pw = new PrintWriter(new File(path));
-//			pw.write(sb1.toString());
-//			pw.close();
+//			e.printStackTrace();
+//		}
+////		writeCSVFile
+//		try {
+//			Set<Feature> fes = FeatureSetBuilder.buildFeatureSet(aJCas);
+//			Map<String,String> featureMap = new HashMap<>();
+//			featureMap.put("textId", id);
+//			for (Feature feature : fes) {
+//				featureMap.put(feature.getName(), Double.toString((double) feature.getValue())); //TODO: check casting type
+//			}
+//			featureList.add(featureMap);
 //		} catch (LiftFeatureExtrationException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
 //		}
-
-		//writeCSVFile
-		try {
-			Set<Feature> fes = FeatureSetBuilder.buildFeatureSet(aJCas);
-			Map<String,String> featureMap = new HashMap<>();
-			featureMap.put("textId", id);
-			for (Feature feature : fes) {
-				featureMap.put(feature.getName(), Double.toString((double) feature.getValue())); //TODO: check casting type
-			}
-			featureList.add(featureMap);
-		} catch (LiftFeatureExtrationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	@Override
 	public void destroy() {
 		
 //		try {
-//			exportCSVFile("D:\\HiWi\\LiFT\\output\\LV2_POS.csv", featureList);
+//			exportCSVFile("D:\\HiWi\\LiFT\\output\\LV3Derewo.csv", featureList);
 //		} catch (FileNotFoundException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

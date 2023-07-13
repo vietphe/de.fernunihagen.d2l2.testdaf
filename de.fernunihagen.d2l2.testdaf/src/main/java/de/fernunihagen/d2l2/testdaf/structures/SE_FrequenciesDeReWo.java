@@ -52,8 +52,8 @@ extends JCasAnnotator_ImplBase
 
 	private final String sep = "\t";
 	
-	protected Map<Vocabulary, Double> dict;
-	protected Map<String, Double> dictWithoutPos;
+	protected Map<Vocabulary, Integer> dict;
+	protected Map<String, Integer> dictWithoutPos;
 	
 	public void initialize(UimaContext context)
 			throws ResourceInitializationException
@@ -78,14 +78,21 @@ extends JCasAnnotator_ImplBase
 		}
 	}
 
-	protected Map<Vocabulary, Double> readMapping(String listFilePath) throws IOException {
+	protected Map<Vocabulary, Integer> readMapping(String listFilePath) throws IOException {
 		//UTF-8 for German
 		Charset inputCharset = Charset.forName("UTF-8");
-		Map<Vocabulary, Double> map = new HashMap<Vocabulary, Double>();
+		Map<Vocabulary, Integer> map = new HashMap<Vocabulary, Integer>();
 		for (String line : FileUtils.readLines(new File(listFilePath), inputCharset)) {
 			String[] parts = line.split(" ");
 			String str = parts[0].toLowerCase();
-			double band = Double.parseDouble(parts[1]);
+			int band = Integer.parseInt(parts[1]);
+			// frequency band 1->20
+			if (band == 0) {
+				band = 1;
+			}
+			if (band >= 20) {
+				band = 20;
+			}
 			String pos = "";
 			if(Character.isUpperCase(parts[0].charAt(0))) {
 				pos = "NN";
@@ -138,14 +145,14 @@ extends JCasAnnotator_ImplBase
 		return map;
 	}
 	
-	protected Map<String, Double> readMappingWithoutPos(String listFilePath) throws IOException {
+	protected Map<String, Integer> readMappingWithoutPos(String listFilePath) throws IOException {
 		//UTF-8 for German
 		Charset inputCharset = Charset.forName("UTF-8");
-		Map<String, Double> map = new HashMap<String, Double>();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (String line : FileUtils.readLines(new File(listFilePath), inputCharset)) {
 			String[] parts = line.split(" ");
 			String str = parts[0].toLowerCase();
-			double band = Double.parseDouble(parts[1]);
+			int band = Integer.parseInt(parts[1]);
 			if (str.contains("(")) {
 				int parenthesisBegin =str.indexOf("(") ;
 				int parenthesisEnd =str.indexOf(")") ;
@@ -280,7 +287,7 @@ extends JCasAnnotator_ImplBase
 			}else {
 				vocab2 = t.getLemmaValue().toLowerCase();
 			}			
-//			System.out.println(vocab);
+//			// ignore annotated tokens with pos
 			if (annotated.contains(begin)) {
 				continue;
 			}
@@ -291,7 +298,7 @@ extends JCasAnnotator_ImplBase
 					f.addToIndexes();
 //					System.out.println("Lemma-Match:"+vocab);
 			} else {
-				System.out.println(t.getCoveredText()+"  "+t.getLemmaValue()+" "+t.getPosValue());
+//				System.out.println(t.getCoveredText()+"  "+t.getLemmaValue()+" "+t.getPosValue());
 			}
 		}
 	}	
