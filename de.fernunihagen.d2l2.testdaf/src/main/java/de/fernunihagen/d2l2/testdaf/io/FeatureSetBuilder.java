@@ -11,6 +11,8 @@ import org.lift.api.Configuration.Language;
 import org.lift.api.Feature;
 import org.lift.api.LiftFeatureExtrationException;
 
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_CoarseGrainedPOSTagRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_CoarseGrainedPOSTagTypeTokenRatio;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCharsPerToken;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfCompoundPerToken;
@@ -18,8 +20,13 @@ import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfFiniteVerb;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfNounPhrasesPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_AvgNrOfTokensPerSentence;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_CommaRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_ConcretenessValue;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_CoveredByWordlist;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_FineGrainedPOSTagTypeTokenRatio;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandDeReWo;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandFromHighToLow;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_FrequencyBandRatio;
+import de.fernunihagen.d2l2.testdaf.features.basic.FE_Lesbarkeitsindex;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalDensity;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_LexicalVariation;
 import de.fernunihagen.d2l2.testdaf.features.basic.FE_NrDiscourseReferent;
@@ -44,28 +51,34 @@ public class FeatureSetBuilder {
 
 	public static Set<Feature> buildFeatureSet(JCas jcas) throws LiftFeatureExtrationException {
 		Set<Feature> featureSet = new LinkedHashSet<Feature>();
-		featureSet.addAll(getAvgNrOfCharsPerSentence(jcas));
-		featureSet.addAll(getAvgNrOfCharsPerToken(jcas));
-		featureSet.addAll(getNrOfChars(jcas));
-		featureSet.addAll(getLexicalDensity(jcas));
-		featureSet.addAll(getLexicalVariation(jcas));
-		featureSet.addAll(getTypeTokenRatio(jcas));
-		featureSet.addAll(getTraditionalReadabilityMeasures(jcas));
-		featureSet.addAll(getSyntaxTreeDepth(jcas));
-		featureSet.addAll(getAvgNrOfNounPhrasesPerSentence(jcas));
-		featureSet.addAll(getAvgNrOfTokensPerSentence(jcas));
-		featureSet.addAll(getCommaRatio(jcas));
-		featureSet.addAll(getSyntacticVariability(jcas));
-		featureSet.addAll(getConnectiveRatio(jcas));
-		featureSet.addAll(getFiniteVerbRatio(jcas));
-		featureSet.addAll(getDiscourseReferentRatio(jcas));
-		featureSet.addAll(getSubstantivierungRatio(jcas));
-		featureSet.addAll(getPassivSentenceRatio(jcas));
+//		featureSet.addAll(getAvgNrOfCharsPerSentence(jcas));
+//		featureSet.addAll(getAvgNrOfCharsPerToken(jcas));
+//		featureSet.addAll(getNrOfChars(jcas));
+//		featureSet.addAll(getLexicalDensity(jcas));
+//		featureSet.addAll(getLexicalVariation(jcas));
+//		featureSet.addAll(getTypeTokenRatio(jcas));
+//		featureSet.addAll(getTraditionalReadabilityMeasures(jcas));
+//		featureSet.addAll(getSyntaxTreeDepth(jcas));
+//		featureSet.addAll(getAvgNrOfNounPhrasesPerSentence(jcas));
+//		featureSet.addAll(getAvgNrOfTokensPerSentence(jcas));
+//		featureSet.addAll(getCommaRatio(jcas));
+//		featureSet.addAll(getSyntacticVariability(jcas));
+//		featureSet.addAll(getConnectiveRatio(jcas));
+//		featureSet.addAll(getFiniteVerbRatio(jcas));
+//		featureSet.addAll(getDiscourseReferentRatio(jcas));
+//		featureSet.addAll(getSubstantivierungRatio(jcas));
+//		featureSet.addAll(getPassivSentenceRatio(jcas));
 		featureSet.addAll(getFrequencyBandRatio(jcas));
-		featureSet.addAll(getFrequencyBandDeReWo(jcas));
-		featureSet.addAll(getPOSRatio(jcas));
-		featureSet.addAll(getCompoundRatio(jcas));
-		
+//		featureSet.addAll(getFrequencyBandDeReWo(jcas));
+//		featureSet.addAll(getPOSRatio(jcas));
+//		featureSet.addAll(getCompoundRatio(jcas));
+//		featureSet.addAll(getCoarseGrainedPOSTagRatio(jcas));
+//		featureSet.addAll(getCoveredByWordlistRatio(jcas));
+//		featureSet.addAll(getFrequencyBandFromHighToLow(jcas));
+//		featureSet.addAll(getLesbarkeitsIndex(jcas));
+//		featureSet.addAll(getCoarseGrainedPOSTagRatioTypeTokenRatio(jcas));
+//		featureSet.addAll(getFineGrainedPOSTagRatioTypeTokenRatio(jcas));
+//		featureSet.addAll(getConcretenessValue(jcas));
 		return featureSet;
 	}
 	
@@ -159,6 +172,34 @@ public class FeatureSetBuilder {
 	}	
 	private static Set<Feature> getCompoundRatio(JCas jcas) throws LiftFeatureExtrationException {
 		FE_AvgNrOfCompoundPerToken extractor = new FE_AvgNrOfCompoundPerToken();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getCoarseGrainedPOSTagRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_CoarseGrainedPOSTagRatio extractor = new FE_CoarseGrainedPOSTagRatio();
+		return extractor.extract(jcas);		
+	}
+	private static Set<Feature> getCoveredByWordlistRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_CoveredByWordlist extractor = new FE_CoveredByWordlist();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getFrequencyBandFromHighToLow(JCas jcas) throws LiftFeatureExtrationException {
+		FE_FrequencyBandFromHighToLow extractor = new FE_FrequencyBandFromHighToLow();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getLesbarkeitsIndex(JCas jcas) throws LiftFeatureExtrationException {
+		FE_Lesbarkeitsindex extractor = new FE_Lesbarkeitsindex();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getCoarseGrainedPOSTagRatioTypeTokenRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_CoarseGrainedPOSTagTypeTokenRatio extractor = new FE_CoarseGrainedPOSTagTypeTokenRatio();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getFineGrainedPOSTagRatioTypeTokenRatio(JCas jcas) throws LiftFeatureExtrationException {
+		FE_FineGrainedPOSTagTypeTokenRatio extractor = new FE_FineGrainedPOSTagTypeTokenRatio();
+		return extractor.extract(jcas);		
+	}	
+	private static Set<Feature> getConcretenessValue(JCas jcas) throws LiftFeatureExtrationException {
+		FE_ConcretenessValue extractor = new FE_ConcretenessValue();
 		return extractor.extract(jcas);		
 	}	
 }

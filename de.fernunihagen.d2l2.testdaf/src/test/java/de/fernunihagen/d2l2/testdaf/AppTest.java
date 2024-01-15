@@ -1,4 +1,4 @@
-package de.fernunihagen.d2l2.testdarf;
+package de.fernunihagen.d2l2.testdaf;
 
 import static org.junit.Assert.assertTrue;
 

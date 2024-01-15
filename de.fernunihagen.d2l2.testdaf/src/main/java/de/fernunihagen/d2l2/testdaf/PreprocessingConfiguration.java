@@ -35,7 +35,6 @@ import org.dkpro.core.treetagger.TreeTaggerChunker;
 
 import org.lift.api.Configuration.Language;
 
-
 public class PreprocessingConfiguration {
 
 	private List<AnalysisEngineDescription> components;
@@ -72,7 +71,7 @@ public class PreprocessingConfiguration {
 		
 		AnalysisEngineDescription constituentParser = getParser_CoreNLP(language.code);
 		//Berkelay Parser for German
-//		AnalysisEngineDescription constituentParser = getParser_Berkeley(language.code);
+//		AnalysisEngineDescription constituentParserDe = getParser_Berkeley(language.code);
 		AnalysisEngineDescription dependencyParser  = getDepParser_CoreNLP(language.code);
 		//actually only for German
 //		AnalysisEngineDescription morphologicalAnalyzer  = getMorphologicalAnalyzer(language.code); //nur de-version
@@ -215,7 +214,7 @@ public class PreprocessingConfiguration {
 				CoreNlpParser.PARAM_VARIANT,"pcfg"
 		);
 	}
-//	// for German
+	// for German
 //	private AnalysisEngineDescription getParser_Berkeley(String languageCode) 
 //			throws ResourceInitializationException
 //	{
